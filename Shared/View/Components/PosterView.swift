@@ -8,40 +8,91 @@
 import SwiftUI
 
 struct PosterView: View {
-    let title: String
-    let url: URL?
+    let item: ItemContent
+    @State private var isSharePresented: Bool = false
+    @State private var shareItems: [Any] = []
+    private let context = PersistenceController.shared
+    @Binding var showConfirmation: Bool
     var body: some View {
-        AsyncImage(url: url,
-                   transaction: Transaction(animation: .easeInOut)) { phase in
-            if let image = phase.image {
-                image
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .transition(.opacity)
-            } else if phase.error != nil {
-                ZStack {
-                    Rectangle().fill(.thickMaterial)
-                    VStack {
-                        Text(title)
-                            .lineLimit(1)
-                            .padding(.bottom)
-                        Image(systemName: "film")
+        NavigationLink(destination: ItemContentView(title: item.itemTitle, id: item.id, type: item.itemContentMedia)) {
+            AsyncImage(url: item.posterImageMedium,
+                       transaction: Transaction(animation: .easeInOut)) { phase in
+                if let image = phase.image {
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .transition(.opacity)
+                } else if phase.error != nil {
+                    ZStack {
+                        Rectangle().fill(.thickMaterial)
+                        VStack {
+                            Text(item.itemTitle)
+                                .lineLimit(1)
+                                .padding(.bottom)
+                            Image(systemName: "film")
+                        }
+                        .padding()
+                        .foregroundColor(.secondary)
                     }
-                    .padding()
-                    .foregroundColor(.secondary)
+                } else {
+                    ZStack {
+                        Rectangle().fill(.thickMaterial)
+                        VStack {
+                            ProgressView()
+                            Text(item.itemTitle)
+                                .lineLimit(1)
+                                .padding(.bottom)
+                            Image(systemName: "film")
+                        }
+                        .padding()
+                        .foregroundColor(.secondary)
+                    }
                 }
-            } else {
-                ZStack {
-                    Rectangle().fill(.thickMaterial)
-                    VStack {
-                        ProgressView()
-                        Text(title)
-                            .lineLimit(1)
-                            .padding(.bottom)
-                        Image(systemName: "film")
+            }
+                       .frame(width: DrawingConstants.posterWidth,
+                              height: DrawingConstants.posterHeight)
+                       .clipShape(RoundedRectangle(cornerRadius: DrawingConstants.posterRadius,
+                                                   style: .continuous))
+                       .contextMenu {
+                           Button(action: {
+                               HapticManager.shared.softHaptic()
+                               shareItems = [item.itemURL]
+                               isSharePresented.toggle()
+                           }, label: {
+                               Label("Share",
+                                     systemImage: "square.and.arrow.up")
+                           })
+                           Button(action: {
+                               Task {
+                                   updateWatchlist(with: item)
+                               }
+                           }, label: {
+                               Label("Add to watchlist", systemImage: "plus.circle")
+                           })
+                       }
+                       .sheet(isPresented: $isSharePresented,
+                              content: { ActivityViewController(itemsToShare: $shareItems) })
+                       .shadow(color: .black.opacity(DrawingConstants.shadowOpacity),
+                               radius: DrawingConstants.shadowRadius)
+                       .padding([.leading, .trailing], 4)
+        }
+        .buttonStyle(.plain)
+        
+    }
+    
+    private func updateWatchlist(with item: ItemContent) {
+        HapticManager.shared.softHaptic()
+        if !context.isItemInList(id: item.id, type: item.itemContentMedia) {
+            Task {
+                let content = try? await NetworkService.shared.fetchContent(id: item.id, type: item.itemContentMedia)
+                if let content = content {
+                    withAnimation {
+                        self.context.saveItem(content: content, notify: content.itemCanNotify)
+                        showConfirmation.toggle()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.4) {
+                            showConfirmation = false
+                        }
                     }
-                    .padding()
-                    .foregroundColor(.secondary)
                 }
             }
         }
@@ -49,8 +100,16 @@ struct PosterView: View {
 }
 
 struct PosterView_Previews: PreviewProvider {
+    @State private static var show = false
     static var previews: some View {
-        PosterView(title: ItemContent.previewContent.itemTitle,
-                   url: ItemContent.previewContent.posterImageMedium)
+        PosterView(item: ItemContent.previewContent, showConfirmation: $show)
     }
+}
+
+private struct DrawingConstants {
+    static let posterWidth: CGFloat = 160
+    static let posterHeight: CGFloat = 240
+    static let posterRadius: CGFloat = 8
+    static let shadowOpacity: Double = 0.5
+    static let shadowRadius: CGFloat = 2.5
 }

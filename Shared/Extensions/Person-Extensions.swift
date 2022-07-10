@@ -15,7 +15,14 @@ extension Person {
         return NetworkService.urlBuilder(size: .medium, path: profilePath)
     }
     var personBiography: String {
-        biography ?? "Not available"
+        if let biography = biography {
+            if biography.isEmpty {
+                return "No information available"
+            } else {
+               return biography
+            }
+        }
+        return "No information available"
     }
     var personRole: String? {
         job ?? character

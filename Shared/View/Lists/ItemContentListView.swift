@@ -16,7 +16,7 @@ struct ItemContentListView: View {
     let image: String
     @Binding var addedItemConfirmation: Bool
     var body: some View {
-        if let items {
+        if let items = items {
             if !items.isEmpty {
                 VStack {
                     TitleView(title: title,
@@ -25,19 +25,7 @@ struct ItemContentListView: View {
                     ScrollView(.horizontal, showsIndicators: false, content: {
                         HStack {
                             ForEach(items) { item in
-                                NavigationLink(value: item) {
-                                    PosterView(title: item.itemTitle, url: item.posterImageMedium)
-                                        .frame(width: DrawingConstants.posterWidth,
-                                               height: DrawingConstants.posterHeight)
-                                        .clipShape(RoundedRectangle(cornerRadius: DrawingConstants.posterRadius,
-                                                                    style: .continuous))
-                                        .shadow(color: .black.opacity(DrawingConstants.shadowOpacity),
-                                                radius: DrawingConstants.shadowRadius)
-                                        .modifier(ItemContentContextMenu(item: item,
-                                                                         showConfirmation: $addedItemConfirmation))
-                                        .padding([.leading, .trailing], 4)
-                                }
-                                .buttonStyle(.plain)
+                                PosterView(item: item, showConfirmation: $addedItemConfirmation)
                                 .padding(.leading, item.id == items.first!.id ? 16 : 0)
                                 .padding(.trailing, item.id == items.last!.id ? 16 : 0)
                                 .padding([.top, .bottom])

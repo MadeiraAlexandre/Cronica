@@ -12,11 +12,13 @@ struct WatchListSection: View {
     private let context = PersistenceController.shared
     let items: [WatchlistItem]
     let title: String
+    @State private var isSharePresented: Bool = false
+    @State private var shareItems: [Any] = []
     var body: some View {
         if !items.isEmpty {
             Section {
                 ForEach(items) { item in
-                    NavigationLink(value: item) {
+                    NavigationLink(destination: ItemContentView(title: item.itemTitle, id: item.itemId, type: item.itemMedia)) {
                         ItemView(content: item)
                             .contextMenu {
                                 Button(action: {
@@ -27,7 +29,13 @@ struct WatchListSection: View {
                                     Label(item.watched ? "Remove from Watched" : "Mark as Watched",
                                           systemImage: item.watched ? "minus.circle" : "checkmark.circle")
                                 })
-                                ShareLink(item: item.itemLink)
+                                Button(action: {
+                                    shareItems = [item.itemLink]
+                                    isSharePresented.toggle()
+                                }, label: {
+                                    Label("Share",
+                                          systemImage: "square.and.arrow.up")
+                                })
                                 Divider()
                                 Button(role: .destructive, action: {
                                     deleteItem(item: item)
@@ -35,6 +43,8 @@ struct WatchListSection: View {
                                     Label("Remove", systemImage: "trash")
                                 })
                             }
+                            .sheet(isPresented: $isSharePresented,
+                                   content: { ActivityViewController(itemsToShare: $shareItems) })
                     }
                     .swipeActions(edge: .leading, allowsFullSwipe: true) {
                         Button(action: {

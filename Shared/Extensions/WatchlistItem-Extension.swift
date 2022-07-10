@@ -46,4 +46,15 @@ extension WatchlistItem {
         item.notify = false
         return item
     }
+    var itemSubtitle: String {
+        if itemMedia == .tvShow {
+            if upcomingSeason {
+                let nextSeason = Int(nextSeasonNumber)
+                return NSLocalizedString("Season \(nextSeason)", comment: "")
+            }
+            return NSLocalizedString("", comment: "")
+        } else {
+            return NSLocalizedString("", comment: "")
+        }
+    }
 }

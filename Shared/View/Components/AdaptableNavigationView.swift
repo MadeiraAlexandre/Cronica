@@ -8,7 +8,7 @@
 import SwiftUI
 
 /// A view that handles multi platform behaviors.
-/// On iOS, this view will put the content inside a NavigationStack.
+/// On iOS, this view will put the content inside a NavigationView.
 /// On iPadOS/macOS, this view will just present the content without any alterations,
 /// just to conform to the SideBar.
 struct AdaptableNavigationView<Content: View>: View {
@@ -16,7 +16,7 @@ struct AdaptableNavigationView<Content: View>: View {
     @ViewBuilder
     var body: some View {
         if !UIDevice.isIPad {
-            NavigationStack {
+            NavigationView {
                 content()
             }
         } else {

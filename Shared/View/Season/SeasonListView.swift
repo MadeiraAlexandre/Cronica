@@ -20,7 +20,7 @@ struct SeasonsView: View {
         self.tvId = tvId
     }
     var body: some View {
-        if let numberOfSeasons {
+        if let numberOfSeasons = numberOfSeasons {
             VStack {
                 HStack {
                     Picker("Seasons", selection: $selectedSeason) {
@@ -64,7 +64,6 @@ struct SeasonsView: View {
         }
     }
     
-    @Sendable
     private func load() {
         Task {
             await self.viewModel.load(id: self.tvId, season: self.selectedSeason)

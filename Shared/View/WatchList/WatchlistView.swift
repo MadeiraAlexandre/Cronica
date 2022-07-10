@@ -32,7 +32,7 @@ struct WatchlistView: View {
                     List {
                         if !filteredMovieItems.isEmpty {
                             ForEach(filteredMovieItems) { item in
-                                NavigationLink(value: item) {
+                                NavigationLink(destination: ItemContentView(title: item.itemTitle, id: item.itemId, type: item.itemMedia)) {
                                     ItemView(content: item)
                                 }
                             }
@@ -68,15 +68,6 @@ struct WatchlistView: View {
             }
             .navigationTitle("Watchlist")
             .navigationBarTitleDisplayMode(.large)
-            .navigationDestination(for: WatchlistItem.self) { item in
-                ItemContentView(title: item.itemTitle, id: item.itemId, type: item.itemMedia)
-            }
-            .navigationDestination(for: ItemContent.self) { item in
-                ItemContentView(title: item.itemTitle, id: item.id, type: item.itemContentMedia)
-            }
-            .navigationDestination(for: Person.self) { person in
-                PersonDetailsView(title: person.name, id: person.id)
-            }
             .refreshable {
                 Task {
                     await refresh()

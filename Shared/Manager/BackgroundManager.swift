@@ -32,7 +32,7 @@ class BackgroundManager {
                                               subpredicates: [notifyPredicate, soonPredicate, tvPredicate])
         request.predicate = orPredicate
         let list = try? self.context.container.viewContext.fetch(request)
-        if let list {
+        if let list = list {
             return list
         }
         return []
@@ -42,10 +42,10 @@ class BackgroundManager {
     private func fetchUpdates(items: [WatchlistItem]) async {
         for item in items {
             let content = try? await self.network.fetchContent(id: item.itemId, type: item.itemMedia)
-            if let content {
+            if let content = content {
                 self.context.updateItem(content: content, isWatched: nil, isFavorite: nil)
                 if content.itemCanNotify {
-                    self.notifications.schedule(notificationContent: content)
+                    self.notifications.schedule(for: content)
                 }
             }
         }

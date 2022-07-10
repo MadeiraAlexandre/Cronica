@@ -12,7 +12,7 @@ struct EpisodeDetailsView: View {
     @Binding var showDetails: Bool
     @State private var isPad: Bool = UIDevice.isIPad
     var body: some View {
-        NavigationStack {
+        NavigationView {
             VStack {
                 ScrollView {
                     HeroImage(url: episode.itemImageMedium, title: episode.itemTitle)

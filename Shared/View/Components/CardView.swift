@@ -41,7 +41,7 @@ struct CardView: View {
                     }
                 }
             }
-            if let subtitle {
+            if let subtitle = subtitle {
                 VStack(alignment: .leading) {
                     Spacer()
                     HStack {

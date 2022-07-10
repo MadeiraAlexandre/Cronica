@@ -10,8 +10,11 @@ import SwiftUI
 struct ItemContentFrameView: View {
     let item: ItemContent
     @Binding var showConfirmation: Bool
+    @State private var isSharePresented: Bool = false
+    @State private var shareItems: [Any] = []
+    private let context = PersistenceController.shared
     var body: some View {
-        NavigationLink(value: item) {
+        NavigationLink(destination: ItemContentView(title: item.itemTitle, id: item.id, type: item.itemContentMedia)) {
             VStack {
                 AsyncImage(url: item.cardImageMedium,
                            transaction: Transaction(animation: .easeInOut)) { phase in
@@ -50,7 +53,25 @@ struct ItemContentFrameView: View {
                         height: UIDevice.isIPad ? DrawingConstants.padImageHeight : DrawingConstants.imageHeight)
                 .clipShape(RoundedRectangle(cornerRadius: UIDevice.isIPad ? DrawingConstants.padImageRadius : DrawingConstants.imageRadius,
                                                        style: .continuous))
-                .modifier(ItemContentContextMenu(item: item, showConfirmation: $showConfirmation))
+                .contextMenu {
+                    Button(action: {
+                        HapticManager.shared.softHaptic()
+                        shareItems = [item.itemURL]
+                        isSharePresented.toggle()
+                    }, label: {
+                        Label("Share",
+                              systemImage: "square.and.arrow.up")
+                    })
+                    Button(action: {
+                        Task {
+                            updateWatchlist(with: item)
+                        }
+                    }, label: {
+                        Label("Add to watchlist", systemImage: "plus.circle")
+                    })
+                }
+                .sheet(isPresented: $isSharePresented,
+                       content: { ActivityViewController(itemsToShare: $shareItems) })
                 .shadow(radius: DrawingConstants.imageShadow)
                 HStack {
                     Text(item.itemTitle)
@@ -59,6 +80,25 @@ struct ItemContentFrameView: View {
                     Spacer()
                 }
                 .frame(width: UIDevice.isIPad ? DrawingConstants.padImageWidth : DrawingConstants.imageWidth)
+            }
+        }
+        .buttonStyle(.plain)
+    }
+    
+    private func updateWatchlist(with item: ItemContent) {
+        HapticManager.shared.softHaptic()
+        if !context.isItemInList(id: item.id, type: item.itemContentMedia) {
+            Task {
+                let content = try? await NetworkService.shared.fetchContent(id: item.id, type: item.itemContentMedia)
+                if let content = content {
+                    withAnimation {
+                        self.context.saveItem(content: content, notify: content.itemCanNotify)
+                        showConfirmation.toggle()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.4) {
+                            showConfirmation = false
+                        }
+                    }
+                }
             }
         }
     }

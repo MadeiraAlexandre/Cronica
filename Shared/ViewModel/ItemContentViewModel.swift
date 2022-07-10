@@ -30,15 +30,15 @@ class ItemContentViewModel: ObservableObject {
     }
     
     func update(markAsWatched watched: Bool?, markAsFavorite favorite: Bool?) {
-        if let content {
-            if let favorite {
+        if let content = content {
+            if let favorite = favorite {
                 HapticManager.shared.lightHaptic()
                 if !context.isItemInList(id: content.id, type: content.itemContentMedia) {
                     context.saveItem(content: content, notify: content.itemCanNotify)
                 }
                 context.updateItem(content: content, isWatched: nil, isFavorite: favorite)
             }
-            else if let watched {
+            else if let watched = watched {
                 HapticManager.shared.lightHaptic()
                 if !context.isItemInList(id: content.id, type: content.itemContentMedia) {
                     context.saveItem(content: content, notify: content.itemCanNotify)
@@ -49,7 +49,7 @@ class ItemContentViewModel: ObservableObject {
                 if context.isItemInList(id: content.id, type: content.itemContentMedia) {
                     HapticManager.shared.softHaptic()
                     let item = context.getItem(id: WatchlistItem.ID(content.id))
-                    if let item {
+                    if let item = item {
                         let identifier: String = "\(content.itemTitle)+\(content.id)"
                         if context.isNotificationScheduled(id: content.id) {
                             notification.removeNotification(identifier: identifier)
@@ -60,7 +60,7 @@ class ItemContentViewModel: ObservableObject {
                     HapticManager.shared.mediumHaptic()
                     context.saveItem(content: content, notify: content.itemCanNotify)
                     if content.itemCanNotify {
-                        notification.schedule(notificationContent: content)
+                        notification.schedule(for: content)
                     }
                 }
             }

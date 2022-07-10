@@ -9,48 +9,33 @@ import SwiftUI
 
 struct SideBarView: View {
     @SceneStorage("selectedView") var selectedView: Screens?
+    @ViewBuilder
     var body: some View {
-        NavigationSplitView {
+        NavigationView {
             List(selection: $selectedView) {
-                NavigationLink(value: Screens.home) {
+                NavigationLink(destination: HomeView()) {
                     Label("Home", systemImage: "house")
-                }
-                .tag(HomeView.tag)
-                NavigationLink(value: Screens.discover) {
+                }.tag(HomeView.tag)
+                NavigationLink(destination: DiscoverView()) {
                     Label("Explore", systemImage: "film")
-                }
-                .tag(DiscoverView.tag)
-                NavigationLink(value: Screens.watchlist) {
+                }.tag(DiscoverView.tag)
+                NavigationLink(destination: WatchlistView()) {
                     Label("Watchlist", systemImage: "square.stack.fill")
-                }
-                .tag(WatchlistView.tag)
-                NavigationLink(value: Screens.search) {
+                }.tag(WatchlistView.tag)
+                NavigationLink(destination: SearchView()) {
                     Label("Search", systemImage: "magnifyingglass")
-                }
-                .tag(SearchView.tag)
+                }.tag(SearchView.tag)
             }
-            .listStyle(.sidebar)
+            .listStyle(SidebarListStyle())
             .navigationTitle("Cronica")
-        } detail: {
-            NavigationStack {
-                VStack {
-                    switch selectedView {
-                    case .discover: DiscoverView()
-                    case .watchlist: WatchlistView()
-                    case .search: SearchView()
-                    default: HomeView()
-                    }
-                }
-                .navigationDestination(for: Screens.self) { screens in
-                    switch screens {
-                    case .home: HomeView()
-                    case .discover: DiscoverView()
-                    case .watchlist: WatchlistView()
-                    case .search: SearchView()
-                    }
-                }
+            switch selectedView {
+            case .discover: DiscoverView()
+            case .watchlist: WatchlistView()
+            case .search: SearchView()
+            default: HomeView()
             }
         }
+        .navigationViewStyle(.columns)
     }
 }
 
@@ -59,4 +44,3 @@ struct SideBarView_Previews: PreviewProvider {
         SideBarView()
     }
 }
-

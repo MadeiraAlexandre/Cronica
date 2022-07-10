@@ -12,10 +12,17 @@ extension ItemContent {
         title ?? name!
     }
     var itemOverview: String {
-        overview ?? "Not Available"
+        if let overview = overview {
+            if overview.isEmpty {
+                return NSLocalizedString("No information available", comment: "")
+            } else {
+               return overview
+            }
+        }
+        return "No information available"
     }
     var itemGenre: String {
-        genres?.first?.name ?? "Not Available"
+        genres?.first?.name ?? NSLocalizedString("Not Available", comment: "")
     }
     var itemCountry: String? {
         return productionCountries?.first?.name ?? "Not Available"
@@ -47,7 +54,7 @@ extension ItemContent {
         return nil
     }
     var itemInfo: String {
-        if let itemTheatricalString {
+        if let itemTheatricalString = itemTheatricalString {
             return "\(itemGenre), \(itemTheatricalString)"
         }
         if let date = nextEpisodeDate {
@@ -87,7 +94,7 @@ extension ItemContent {
         return URL(string: "https://www.themoviedb.org/\(media.rawValue)/\(id)")!
     }
     var itemSeasons: [Int]? {
-        if let numberOfSeasons {
+        if let numberOfSeasons = numberOfSeasons {
             return Array(1...numberOfSeasons)
         }
         return nil
@@ -105,7 +112,7 @@ extension ItemContent {
         return nil
     }
     var itemTheatricalDate: Date? {
-        if let itemTheatricalString {
+        if let itemTheatricalString = itemTheatricalString {
             return Utilities.dateString.date(from: itemTheatricalString)
         }
         return nil
@@ -117,12 +124,12 @@ extension ItemContent {
         return nil
     }
     var itemCanNotify: Bool {
-        if let itemTheatricalDate {
+        if let itemTheatricalDate = itemTheatricalDate {
             if itemTheatricalDate > Date() {
                 return true
             }
         }
-        if let nextEpisodeDate {
+        if let nextEpisodeDate = nextEpisodeDate {
             if nextEpisodeDate > Date() {
                 return true
             }
@@ -130,7 +137,7 @@ extension ItemContent {
         return false
     }
     var hasUpcomingSeason: Bool {
-        if let nextEpisodeToAir {
+        if let nextEpisodeToAir  = nextEpisodeToAir {
             if nextEpisodeToAir.episodeNumber == 1 && itemCanNotify {
                 return true
             }

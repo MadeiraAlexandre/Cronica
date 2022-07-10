@@ -78,7 +78,7 @@ class NetworkService {
         component.scheme = "https"
         component.host = "api.themoviedb.org"
         component.path = "/3/\(path)"
-        if let append {
+        if let append = append {
             component.queryItems = [
                 .init(name: "api_key", value: Key.keyV3),
                 .init(name: "language", value: Utilities.userLang),
@@ -93,7 +93,7 @@ class NetworkService {
                 .init(name: "region", value: Utilities.userRegion)
             ]
         }
-        if let query {
+        if let query = query {
             component.queryItems = [
                 .init(name: "api_key", value: Key.keyV3),
                 .init(name: "language", value: Utilities.userLang),
@@ -132,7 +132,7 @@ class NetworkService {
     ///   - path: The path for the image.
     /// - Returns: Returns nil if the path is nil, otherwise return a safe URL.
     static func urlBuilder(size: ImageSize, path: String? = nil) -> URL? {
-        if let path {
+        if let path = path {
             var component = URLComponents()
             component.scheme = "https"
             component.host = "image.tmdb.org"
@@ -146,7 +146,7 @@ class NetworkService {
     /// - Parameter path: The 'key' for the trailer.
     /// - Returns: Returns nil if the path is nil, otherwise return a safe URL.
     static func urlBuilder(video path: String? = nil) -> URL? {
-        if let path {
+        if let path = path {
             var components = URLComponents()
             components.scheme = "https"
             components.host = "www.youtube.com"

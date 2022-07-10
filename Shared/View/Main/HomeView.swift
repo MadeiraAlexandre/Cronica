@@ -31,23 +31,21 @@ struct HomeView: View {
                                             subtitle: "This week",
                                             image: "crown",
                                             addedItemConfirmation: $showConfirmation)
-                        ForEach(viewModel.sectionsItems) { section in
-                            ItemContentListView(items: section.results,
-                                                title: section.title,
-                                                subtitle: section.subtitle,
-                                                image: section.image,
+                        if let upcoming = viewModel.upcomingSection {
+                            ItemContentListView(items: upcoming.results,
+                                                title: upcoming.title,
+                                                subtitle: upcoming.subtitle,
+                                                image: upcoming.image,
+                                                addedItemConfirmation: $showConfirmation)
+                        }
+                        if let nowPlaying = viewModel.nowPlayingSection {
+                            ItemContentListView(items: nowPlaying.results,
+                                                title: nowPlaying.title,
+                                                subtitle: nowPlaying.subtitle,
+                                                image: nowPlaying.image,
                                                 addedItemConfirmation: $showConfirmation)
                         }
                         AttributionView()
-                    }
-                    .navigationDestination(for: ItemContent.self) { item in
-                        ItemContentView(title: item.itemTitle, id: item.id, type: item.itemContentMedia)
-                    }
-                    .navigationDestination(for: Person.self) { person in
-                        PersonDetailsView(title: person.name, id: person.id)
-                    }
-                    .navigationDestination(for: WatchlistItem.self) { item in
-                        ItemContentView(title: item.itemTitle, id: item.itemId, type: item.itemMedia)
                     }
                     .redacted(reason: isLoading ? .placeholder : [] )
                     .navigationTitle("Home")
@@ -74,7 +72,6 @@ struct HomeView: View {
             }
         }
     }
-    
     
     @Sendable
     private func load() {

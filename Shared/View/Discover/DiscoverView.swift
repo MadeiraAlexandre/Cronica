@@ -30,7 +30,6 @@ struct DiscoverView: View {
                             LazyVGrid(columns: columns, spacing: 20) {
                                 ForEach(content) { item in
                                     ItemContentFrameView(item: item, showConfirmation: $showConfirmation)
-                                        .buttonStyle(.plain)
                                 }
                                 if viewModel.startPagination || !viewModel.endPagination {
                                     ProgressView()
@@ -57,12 +56,6 @@ struct DiscoverView: View {
                         } else {
                             ProgressView()
                         }
-                    }
-                    .navigationDestination(for: ItemContent.self) { item in
-                        ItemContentView(title: item.itemTitle, id: item.id, type: item.itemContentMedia)
-                    }
-                    .navigationDestination(for: Person.self) { person in
-                        PersonDetailsView(title: person.name, id: person.id)
                     }
                 }
                 
@@ -104,7 +97,7 @@ struct DiscoverView: View {
                 } else {
                     genre = viewModel.movies[0]
                 }
-                if let genre {
+                if let genre = genre {
                     selectedGenre = genre.id
                 }
                 load()
@@ -116,7 +109,6 @@ struct DiscoverView: View {
         }
     }
     
-    @Sendable
     private func load() {
         Task {
             if onChanging {
@@ -138,6 +130,8 @@ struct DiscoverView: View {
             }
         }
     }
+    
+    
 }
 
 struct Previews_DiscoverView_Previews: PreviewProvider {

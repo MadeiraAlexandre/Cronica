@@ -14,7 +14,7 @@ struct ItemContentContextMenu: ViewModifier, Sendable {
     func body(content: Content) -> some View {
         return content
             .contextMenu {
-                ShareLink(item: item.itemURL)
+                ShareButtonView(shareLink: [item.itemURL])
                 Button(action: {
                     updateWatchlist(with: item)
                 }, label: {
@@ -28,7 +28,7 @@ struct ItemContentContextMenu: ViewModifier, Sendable {
         if !context.isItemInList(id: item.id, type: item.itemContentMedia) {
             Task {
                 let content = try? await NetworkService.shared.fetchContent(id: item.id, type: item.itemContentMedia)
-                if let content {
+                if let content = content {
                     withAnimation {
                         self.context.saveItem(content: content, notify: content.itemCanNotify)
                         showConfirmation.toggle()

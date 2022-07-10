@@ -49,7 +49,7 @@ struct PersistenceController {
         }
         container.loadPersistentStores {storeDescription, error in
             print(storeDescription.url as Any)
-            if let error {
+            if let error = error {
                 print(error.localizedDescription)
             }
         }
@@ -84,7 +84,7 @@ struct PersistenceController {
         let request: NSFetchRequest<WatchlistItem> = WatchlistItem.fetchRequest()
         request.predicate = NSPredicate(format: "id == %d", WatchlistItem.ID(id))
         let item = try? viewContext.fetch(request)
-        if let item {
+        if let item = item {
             return item[0]
         }
         return nil
@@ -93,11 +93,11 @@ struct PersistenceController {
     func updateMarkAs(id: Int, watched: Bool?, favorite: Bool?) {
         let viewContext = PersistenceController.shared.container.viewContext
         let item = self.getItem(id: WatchlistItem.ID(id))
-        if let item {
-            if let watched {
+        if let item = item {
+            if let watched = watched {
                 item.watched = watched
             }
-            if let favorite {
+            if let favorite = favorite {
                 item.favorite = favorite
             }
             if viewContext.hasChanges {
@@ -111,7 +111,7 @@ struct PersistenceController {
         if isItemInList(id: content.id, type: content.itemContentMedia) {
             let viewContext = PersistenceController.shared.container.viewContext
             let item = self.getItem(id: WatchlistItem.ID(content.id))
-            if let item {
+            if let item = item {
                 item.title = content.itemTitle
                 item.image = content.cardImageMedium
                 item.schedule = content.itemStatus.scheduleNumber
@@ -121,10 +121,10 @@ struct PersistenceController {
                     item.upcomingSeason = content.hasUpcomingSeason
                     item.nextSeasonNumber = Int64(content.nextEpisodeToAir?.seasonNumber ?? 0)
                 }
-                if let watched {
+                if let watched = watched {
                     item.watched = watched
                 }
-                if let favorite {
+                if let favorite = favorite {
                     item.favorite = favorite
                 }
                 if viewContext.hasChanges {
@@ -140,7 +140,7 @@ struct PersistenceController {
     func removeItem(id: WatchlistItem) {
         let viewContext = PersistenceController.shared.container.viewContext
         let item = try? viewContext.existingObject(with: id.objectID)
-        if let item {
+        if let item = item {
             viewContext.delete(item)
             try? viewContext.save()
         }
@@ -158,10 +158,10 @@ struct PersistenceController {
         let request: NSFetchRequest<WatchlistItem> = WatchlistItem.fetchRequest()
         request.predicate = NSPredicate(format: "id == %d", WatchlistItem.ID(id))
         let numberOfObjects = try? viewContext.count(for: request)
-        if let numberOfObjects {
+        if let numberOfObjects  = numberOfObjects {
             if numberOfObjects > 0 {
                 let item = getItem(id: WatchlistItem.ID(id))
-                if let item {
+                if let item = item {
                     if item.itemMedia != type {
                         return false
                     }
@@ -176,7 +176,7 @@ struct PersistenceController {
     /// and might not be an actual representation if the item will notify the user.
     func isNotificationScheduled(id: ItemContent.ID) -> Bool {
         let item = getItem(id: WatchlistItem.ID(id))
-        if let item {
+        if let item = item {
             return item.notify
         }
         return false
@@ -185,7 +185,7 @@ struct PersistenceController {
     /// Returns a boolean indicating the status of 'watched' on a given item.
     func isMarkedAsWatched(id: ItemContent.ID) -> Bool {
         let item = getItem(id: WatchlistItem.ID(id))
-        if let item {
+        if let item = item {
             return item.watched
         }
         return false
@@ -194,7 +194,7 @@ struct PersistenceController {
     // Returns a boolean indicating the status of 'favorite' on a given item.
     func isMarkedAsFavorite(id: ItemContent.ID) -> Bool {
         let item = getItem(id: WatchlistItem.ID(id))
-        if let item {
+        if let item = item {
             return item.favorite
         }
         return false

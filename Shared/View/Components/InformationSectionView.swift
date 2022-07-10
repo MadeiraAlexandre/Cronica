@@ -48,7 +48,7 @@ private struct InfoView: View {
     let title: String
     let content: String?
     var body: some View {
-        if let content {
+        if let content = content {
             HStack {
                 VStack(alignment: .leading) {
                     Text(title)

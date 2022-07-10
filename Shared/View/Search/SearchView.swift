@@ -26,16 +26,6 @@ struct SearchView: View {
                 .listStyle(.inset)
                 .navigationTitle("Search")
                 .navigationBarTitleDisplayMode(.large)
-                .navigationDestination(for: Person.self) { person in
-                    PersonDetailsView(title: person.name, id: person.id)
-                }
-                .navigationDestination(for: ItemContent.self) { item in
-                    if item.media == .person {
-                        PersonDetailsView(title: item.itemTitle, id: item.id)
-                    } else {
-                        ItemContentView(title: item.itemTitle, id: item.id, type: item.media)
-                    }
-                }
                 .searchable(text: $viewModel.query,
                             placement: .navigationBarDrawer(displayMode: .always),
                             prompt: Text("Movies, Shows, People"))

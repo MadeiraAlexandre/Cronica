@@ -71,7 +71,7 @@ struct ItemContentView: View {
                     
                     watchlistButton
                     
-                    OverviewBoxView(overview: viewModel.content?.overview,
+                    OverviewBoxView(overview: viewModel.content?.itemOverview,
                                     title: title,
                                     type: .movie)
                         .padding()
@@ -111,7 +111,10 @@ struct ItemContentView: View {
                             .opacity(isNotificationAvailable ? 1 : 0)
                             .foregroundColor(.accentColor)
                             .accessibilityHidden(true)
-                        ShareLink(item: itemUrl)
+                        ShareButtonView(hideTitle: true, shareLink: [itemUrl])
+                            .buttonStyle(.plain)
+                            .foregroundColor(.accentColor)
+                            .accessibilityLabel("Share")
                             .disabled(isLoading ? true : false)
                         if markAsMenuVisibility {
                             markAsMenu
@@ -199,7 +202,6 @@ struct ItemContentView: View {
         }
     }
     
-    @Sendable
     private func load() {
         Task {
             await self.viewModel.load(id: self.id, type: self.type)
@@ -235,7 +237,7 @@ struct ContentDetailsView_Previews: PreviewProvider {
 private struct GlanceInfo: View {
     let info: String?
     var body: some View {
-        if let info {
+        if let info = info {
             Text(info)
                 .font(.caption)
                 .foregroundColor(.secondary)

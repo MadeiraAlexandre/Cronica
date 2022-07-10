@@ -12,7 +12,7 @@ import SwiftUI
 struct CastListView: View {
     let credits: Credits?
     var body: some View {
-        if let credits {
+        if let credits = credits {
             VStack(alignment: .leading) {
                 HStack {
                     Text("Cast & Crew")
@@ -23,22 +23,19 @@ struct CastListView: View {
                 ScrollView(.horizontal, showsIndicators: false, content: {
                     HStack {
                         ForEach(credits.cast.prefix(10)) { cast in
-                            NavigationLink(value: cast) {
+                            NavigationLink(destination: PersonDetailsView(title: cast.name, id: cast.id)) {
                                 PersonCardView(person: cast)
                                     .shadow(radius: DrawingConstants.shadowRadius)
                                     .padding(.leading, cast.id == self.credits?.cast.first!.id ? 16 : 0)
-                                    .contextMenu {
-                                        ShareLink(item: cast.itemURL)
-                                    }
                             }
                             .buttonStyle(.plain)
                         }
                         ForEach(credits.crew.filter { $0.personRole == "Director" }) { director in
-                            NavigationLink(value: director) {
+                            NavigationLink(destination: PersonDetailsView(title: director.name, id: director.id)) {
                                 PersonCardView(person: director)
                                     .shadow(radius: DrawingConstants.shadowRadius)
                                     .contextMenu {
-                                        ShareLink(item: director.itemURL)
+                                        ShareButtonView(shareLink: [director.itemURL])
                                     }
                             }
                             .buttonStyle(.plain)
@@ -62,6 +59,8 @@ struct PersonListView_Previews: PreviewProvider {
 /// in a card view, with its name, role, and image.
 private struct PersonCardView: View {
     let person: Person
+    @State private var isSharePresented: Bool = false
+    @State private var shareItems: [Any] = []
     var body: some View {
         AsyncImage(url: person.personImage,
                    transaction: Transaction(animation: .easeInOut)) { phase in
@@ -104,6 +103,17 @@ private struct PersonCardView: View {
         .clipShape(RoundedRectangle(cornerRadius: DrawingConstants.profileRadius,
                                     style: .continuous))
         .padding(2)
+        .contextMenu {
+            Button(action: {
+                shareItems = [person.itemURL]
+                isSharePresented.toggle()
+            }, label: {
+                Label("Share",
+                      systemImage: "square.and.arrow.up")
+            })
+        }
+        .sheet(isPresented: $isSharePresented,
+               content: { ActivityViewController(itemsToShare: $shareItems) })
     }
 }
 

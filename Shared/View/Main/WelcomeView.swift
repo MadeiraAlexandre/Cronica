@@ -41,23 +41,26 @@ struct WelcomeView: View {
                 InformationContainerView()
                 HStack {
                     Spacer()
-                    Button {
+                    Button(action: {
                         withAnimation {
-                            displayOnboard.toggle()
+                            displayOnboard = false
                         }
-                    } label: {
+                    }, label: {
                         Text("Continue")
-                    }
-                    .buttonStyle(.bordered)
-                    .tint(Color.blue.gradient)
+                    })
                     .controlSize(.large)
+                    .buttonStyle(.bordered)
                     .padding()
                     Spacer()
                 }
                 .padding()
+                .onAppear {
+                    //displayOnboard = false
+                }
             }
         }
-        .interactiveDismissDisabled(true)
+        .interactiveDismissDisabled(false)
+    
     }
 }
 

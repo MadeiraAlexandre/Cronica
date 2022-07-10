@@ -28,7 +28,7 @@ class NotificationManager: ObservableObject {
         }
     }
     
-    func schedule(notificationContent: ItemContent) {
+    func schedule(for notificationContent: ItemContent) {
         self.requestAuthorization { granted in
             if !granted {
                 return
@@ -50,7 +50,7 @@ class NotificationManager: ObservableObject {
         } else {
             date = notificationContent.itemFallbackDate
         }
-        if let date {
+        if let date = date {
             self.scheduleNotification(identifier: identifier,
                                       title: title,
                                       message: body,
@@ -70,7 +70,7 @@ class NotificationManager: ObservableObject {
                                             content: notificationContent,
                                             trigger: trigger)
         UNUserNotificationCenter.current().add(request) { error in
-            if let error {
+            if let error = error {
                 print(error.localizedDescription)
             }
         }

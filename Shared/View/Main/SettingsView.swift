@@ -14,16 +14,16 @@ struct SettingsView: View {
     @State private var showPolicy = false
     @Binding var showSettings: Bool
     var body: some View {
-        NavigationStack {
+        NavigationView {
             Form {
                 Section {
                     Picker(selection: $store.gesture) {
-                        Text("Favorites").tag(DoubleTapGesture.favorite)
-                        Text("Watched").tag(DoubleTapGesture.watched)
+                        Label("Favorites", systemImage: "heart").tag(DoubleTapGesture.favorite)
+                        Label("Watched", systemImage: "checkmark.circle").tag(DoubleTapGesture.watched)
                     } label: {
                         Text("Mark as")
                     }
-                    .pickerStyle(.menu)
+                    .pickerStyle(.inline)
                 } header: {
                     Label("Double Tap Gesture", systemImage: "hand.tap")
                 } footer: {

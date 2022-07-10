@@ -13,57 +13,32 @@ class HomeViewModel: ObservableObject {
     private let service: NetworkService = NetworkService.shared
     @Published var trendingItems: [ItemContent] = []
     @Published var sectionsItems: [ItemContentSection] = []
+    @Published var upcomingSection: ItemContentSection?
+    @Published var nowPlayingSection: ItemContentSection?
     
     func load() async {
         Task {
             if trendingItems.isEmpty {
                 let result = try? await service.fetchContents(from: "trending/all/week")
-                if let result {
+                if let result = result {
                     let trending = result.filter { $0.itemContentMedia != .person }
                     trendingItems.append(contentsOf: trending)
                 }
             }
-            if sectionsItems.isEmpty {
-                let sections = await self.fetchEndpoints()
-                if let sections {
-                    sectionsItems.append(contentsOf: sections)
+            if upcomingSection == nil {
+                let upcoming = try? await service.fetchContents(from: "\(MediaType.movie.rawValue)/\(Endpoints.upcoming.rawValue)")
+                if let upcoming = upcoming {
+                    let section = ItemContentSection.init(results: upcoming, endpoint: Endpoints.upcoming)
+                    upcomingSection = section
+                }
+            }
+            if nowPlayingSection == nil {
+                let nowPlaying = try? await service.fetchContents(from: "\(MediaType.movie.rawValue)/\(Endpoints.nowPlaying.rawValue)")
+                if let nowPlaying = nowPlaying {
+                    let section = ItemContentSection.init(results: nowPlaying, endpoint: Endpoints.nowPlaying)
+                    nowPlayingSection = section
                 }
             }
         }
-    }
-    
-    private func fetchEndpoints(_ endpoints: [Endpoints] = Endpoints.allCases) async -> [ItemContentSection] {
-        let results: [Result<ItemContentSection, Error>] = await withTaskGroup(of: Result<ItemContentSection, Error>.self) { group in
-            for endpoint in endpoints {
-                group.addTask {
-                    await self.fetchFrom(endpoint, media: .movie)
-                }
-            }
-            var results = [Result<ItemContentSection, Error>]()
-            for await result in group {
-                results.append(result)
-            }
-            return results
-        }
-        var sections = [ItemContentSection]()
-        
-        results.forEach { result in
-            switch result {
-            case .failure(let error):
-                print(error.localizedDescription)
-            case .success(let section):
-                sections.append(section)
-            }
-        }
-        
-        return sections.sorted { $0.endpoint.sortIndex < $1.endpoint.sortIndex }
-    }
-    
-    private func fetchFrom(_ endpoint: Endpoints, media: MediaType) async -> Result<ItemContentSection, Error> {
-        let section = try? await service.fetchContents(from: "\(media.rawValue)/\(endpoint.rawValue)")
-        if let section {
-            return .success(.init(results: section, endpoint: endpoint))
-        }
-        return .failure(NetworkError.invalidResponse)
     }
 }

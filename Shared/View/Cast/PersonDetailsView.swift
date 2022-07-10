@@ -26,7 +26,7 @@ struct PersonDetailsView: View {
                                      name: name)
                     .shadow(radius: DrawingConstants.imageShadow)
                     
-                    OverviewBoxView(overview: viewModel.person?.biography,
+                    OverviewBoxView(overview: viewModel.person?.personBiography,
                                     title: name,
                                     type: .person)
                     .padding()
@@ -47,14 +47,13 @@ struct PersonDetailsView: View {
             .navigationTitle(name)
             .toolbar {
                 ToolbarItem {
-                    ShareLink(item: personUrl)
+                    ShareButtonView(shareLink: [personUrl])
                 }
             }
             ConfirmationDialogView(showConfirmation: $showConfirmation)
         }
     }
     
-    @Sendable
     private func load() {
         Task {
             await self.viewModel.load()

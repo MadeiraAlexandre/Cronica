@@ -35,7 +35,6 @@
 		B86E587027A4842A005DBF38 /* DataFetchPhase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86E586F27A4842A005DBF38 /* DataFetchPhase.swift */; };
 		B86E587927A48E5A005DBF38 /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86E587827A48E5A005DBF38 /* Key.swift */; };
 		B86E589127A4BE75005DBF38 /* Endpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86E589027A4BE75005DBF38 /* Endpoints.swift */; };
-		B8733CEF284FDD2800346FC0 /* UpcomingWatchlistContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8733CEE284FDD2800346FC0 /* UpcomingWatchlistContextMenu.swift */; };
 		B876DE50281B1B81005558DD /* MediaType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B876DE4F281B1B81005558DD /* MediaType.swift */; };
 		B876DE52281B1BA5005558DD /* ItemSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = B876DE51281B1BA5005558DD /* ItemSchedule.swift */; };
 		B876DE54281B1BC0005558DD /* ImageSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = B876DE53281B1BC0005558DD /* ImageSize.swift */; };
@@ -49,7 +48,6 @@
 		B878E83527BC85BC0021A981 /* WatchlistItem-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B878E83427BC85BC0021A981 /* WatchlistItem-Extension.swift */; };
 		B87B5CCC27999C5700632648 /* content.json in Resources */ = {isa = PBXBuildFile; fileRef = B87B5CCB27999C5700632648 /* content.json */; };
 		B87B5CD42799AF3600632648 /* Attribution.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B87B5CD32799AF3600632648 /* Attribution.xcassets */; };
-		B87F745E280605CE00E94126 /* TelemetryClient in Frameworks */ = {isa = PBXBuildFile; productRef = B87F745D280605CE00E94126 /* TelemetryClient */; };
 		B87F746328064D3800E94126 /* BackgroundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87F746228064D3800E94126 /* BackgroundManager.swift */; };
 		B87F74642806592E00E94126 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8B271A327A59EF400F6463F /* CloudKit.framework */; };
 		B87F9D89286145600064947A /* DiscoverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87F9D88286145600064947A /* DiscoverViewModel.swift */; };
@@ -64,6 +62,7 @@
 		B8991C7D27E4B5D2001055CB /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8991C7C27E4B5D2001055CB /* WelcomeView.swift */; };
 		B8A3F48627A610AF005F2941 /* CastListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A3F48527A610AF005F2941 /* CastListView.swift */; };
 		B8A99FA6282D60AB00E14BA4 /* Array-Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A99FA5282D60AB00E14BA4 /* Array-Extensions.swift */; };
+		B8AA9C43287A5B4A00DE8924 /* TelemetryClient in Frameworks */ = {isa = PBXBuildFile; productRef = B8AA9C42287A5B4A00DE8924 /* TelemetryClient */; };
 		B8ADAF662829F134001D72EF /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8ADAF652829F134001D72EF /* NetworkError.swift */; };
 		B8ADAF6A282AFC1B001D72EF /* EpisodeFrameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8ADAF69282AFC1B001D72EF /* EpisodeFrameView.swift */; };
 		B8ADAF6C282B463E001D72EF /* WatchListUpcomingSeasonsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8ADAF6B282B463E001D72EF /* WatchListUpcomingSeasonsListView.swift */; };
@@ -84,6 +83,8 @@
 		B8EC462F27D7AA99009389FC /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EC462E27D7AA99009389FC /* NotificationManager.swift */; };
 		B8ED4C3D27B4B9680045C68F /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8ED4C3C27B4B9680045C68F /* HomeView.swift */; };
 		B8EFB257281720E900F7CBD0 /* OverviewBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EFB256281720E900F7CBD0 /* OverviewBoxView.swift */; };
+		B8F2B4D5287A521000030A74 /* ActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8F2B4D4287A521000030A74 /* ActivityViewController.swift */; };
+		B8F2B4D7287A553A00030A74 /* ShareButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8F2B4D6287A553A00030A74 /* ShareButtonView.swift */; };
 		B8FF4DBB27F91A4900C7DE9F /* SeasonListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FF4DBA27F91A4900C7DE9F /* SeasonListView.swift */; };
 		B8FF4DBD27F91B5B00C7DE9F /* SeasonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FF4DBC27F91B5B00C7DE9F /* SeasonViewModel.swift */; };
 		B8FF4DBF27FA511A00C7DE9F /* TitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FF4DBE27FA511A00C7DE9F /* TitleView.swift */; };
@@ -146,7 +147,6 @@
 		B86E586F27A4842A005DBF38 /* DataFetchPhase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DataFetchPhase.swift; path = Shared/Utilities/DataFetchPhase.swift; sourceTree = SOURCE_ROOT; };
 		B86E587827A48E5A005DBF38 /* Key.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Key.swift; sourceTree = "<group>"; };
 		B86E589027A4BE75005DBF38 /* Endpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoints.swift; sourceTree = "<group>"; };
-		B8733CEE284FDD2800346FC0 /* UpcomingWatchlistContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingWatchlistContextMenu.swift; sourceTree = "<group>"; };
 		B876DE4F281B1B81005558DD /* MediaType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaType.swift; sourceTree = "<group>"; };
 		B876DE51281B1BA5005558DD /* ItemSchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemSchedule.swift; sourceTree = "<group>"; };
 		B876DE53281B1BC0005558DD /* ImageSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSize.swift; sourceTree = "<group>"; };
@@ -198,6 +198,8 @@
 		B8EC462E27D7AA99009389FC /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		B8ED4C3C27B4B9680045C68F /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		B8EFB256281720E900F7CBD0 /* OverviewBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewBoxView.swift; sourceTree = "<group>"; };
+		B8F2B4D4287A521000030A74 /* ActivityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityViewController.swift; sourceTree = "<group>"; };
+		B8F2B4D6287A553A00030A74 /* ShareButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareButtonView.swift; sourceTree = "<group>"; };
 		B8FF4DBA27F91A4900C7DE9F /* SeasonListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonListView.swift; sourceTree = "<group>"; };
 		B8FF4DBC27F91B5B00C7DE9F /* SeasonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonViewModel.swift; sourceTree = "<group>"; };
 		B8FF4DBE27FA511A00C7DE9F /* TitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleView.swift; sourceTree = "<group>"; };
@@ -210,8 +212,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B87F745E280605CE00E94126 /* TelemetryClient in Frameworks */,
 				B87F74642806592E00E94126 /* CloudKit.framework in Frameworks */,
+				B8AA9C43287A5B4A00DE8924 /* TelemetryClient in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -283,12 +285,12 @@
 		B8110F0F2792678400844FEB /* View */ = {
 			isa = PBXGroup;
 			children = (
-				B883C1BF28637FB700906EF1 /* Search */,
 				B886D235284E489B00FFE96A /* Cast */,
 				B8EC463E27D84C62009389FC /* Components */,
 				B87F9D8C286256DA0064947A /* Discover */,
 				B8C3354928170AC90055389D /* Lists */,
 				B8C3354B28170BAC0055389D /* Main */,
+				B883C1BF28637FB700906EF1 /* Search */,
 				B886D234284E482500FFE96A /* Season */,
 				B886D233284E47DF00FFE96A /* WatchList */,
 			);
@@ -385,7 +387,6 @@
 			isa = PBXGroup;
 			children = (
 				B84C53FC27B1F1DD00425524 /* ItemView.swift */,
-				B8733CEE284FDD2800346FC0 /* UpcomingWatchlistContextMenu.swift */,
 				B8C335462815ED140055389D /* WatchListSection.swift */,
 				B890C57C27FCC056006BE5E1 /* WatchListUpcomingMoviesListView.swift */,
 				B8ADAF6B282B463E001D72EF /* WatchListUpcomingSeasonsListView.swift */,
@@ -491,6 +492,7 @@
 		B8EC463E27D84C62009389FC /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				B8F2B4D4287A521000030A74 /* ActivityViewController.swift */,
 				B8FFC23A28628079003FCAAE /* AdaptableNavigationView.swift */,
 				B8D8AF8E27D4D0550042AEB6 /* AttributionView.swift */,
 				B8423E2E2793B61B0012259B /* CardView.swift */,
@@ -506,6 +508,7 @@
 				B8779376281E319D00174F32 /* TabBarView.swift */,
 				B8FF4DBE27FA511A00C7DE9F /* TitleView.swift */,
 				B890C57A27FCB54D006BE5E1 /* TrailerView.swift */,
+				B8F2B4D6287A553A00030A74 /* ShareButtonView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -528,7 +531,7 @@
 			);
 			name = "Story (iOS)";
 			packageProductDependencies = (
-				B87F745D280605CE00E94126 /* TelemetryClient */,
+				B8AA9C42287A5B4A00DE8924 /* TelemetryClient */,
 			);
 			productName = "Story (iOS)";
 			productReference = B8110EDF279245D100844FEB /* Story.app */;
@@ -654,13 +657,14 @@
 				B876DE54281B1BC0005558DD /* ImageSize.swift in Sources */,
 				B82C267A2795E33900259D98 /* PosterView.swift in Sources */,
 				B86E586D27A46A5E005DBF38 /* InformationSectionView.swift in Sources */,
+				B8F2B4D7287A553A00030A74 /* ShareButtonView.swift in Sources */,
 				B8ADAF6C282B463E001D72EF /* WatchListUpcomingSeasonsListView.swift in Sources */,
+				B8F2B4D5287A521000030A74 /* ActivityViewController.swift in Sources */,
 				B890C58327FCCE69006BE5E1 /* HapticManager.swift in Sources */,
 				B845132E27ECBC1D00F0D4A4 /* Person-Extensions.swift in Sources */,
 				B815A15C27BEB7F20062F727 /* ItemContent.swift in Sources */,
 				B8CC953327D05D1000B6757C /* HomeViewModel.swift in Sources */,
 				B8ED4C3D27B4B9680045C68F /* HomeView.swift in Sources */,
-				B8733CEF284FDD2800346FC0 /* UpcomingWatchlistContextMenu.swift in Sources */,
 				B890C57B27FCB54D006BE5E1 /* TrailerView.swift in Sources */,
 				B87F746328064D3800E94126 /* BackgroundManager.swift in Sources */,
 				B8110F3C279364C800844FEB /* Utilities.swift in Sources */,
@@ -863,10 +867,10 @@
 				INFOPLIST_KEY_CFBundleDisplayName = Cronica;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -901,10 +905,10 @@
 				INFOPLIST_KEY_CFBundleDisplayName = Cronica;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1008,7 +1012,7 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		B87F745D280605CE00E94126 /* TelemetryClient */ = {
+		B8AA9C42287A5B4A00DE8924 /* TelemetryClient */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B87F745C280605CE00E94126 /* XCRemoteSwiftPackageReference "SwiftClient" */;
 			productName = TelemetryClient;

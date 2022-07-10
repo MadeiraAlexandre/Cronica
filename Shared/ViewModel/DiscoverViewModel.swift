@@ -36,10 +36,10 @@ class DiscoverViewModel: ObservableObject {
             currentPage = 0
             startPagination = true
             clearItems()
-            if let genre {
+            if let genre = genre {
                 self.id = genre
             }
-            if let media {
+            if let media = media {
                 self.type = media
             }
             restartFetch = false

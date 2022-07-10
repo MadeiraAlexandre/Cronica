@@ -5,7 +5,7 @@
 //  Created by Alexandre Madeira on 17/02/22.
 //
 
-import Foundation
+@preconcurrency import Foundation
 import SwiftUI
 
 /// Represents a movie, tv show model, it is also used for people only
@@ -54,7 +54,7 @@ struct ItemContentResponse: Identifiable, Decodable, Hashable {
     let id: String?
     let results: [ItemContent]
 }
-struct ItemContentSection: Identifiable, Sendable {
+struct ItemContentSection: Identifiable, Sendable, Hashable {
     var id = UUID()
     let results: [ItemContent]
     let endpoint: Endpoints
