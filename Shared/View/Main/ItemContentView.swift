@@ -38,7 +38,7 @@ struct ItemContentView: View {
                     CoverImageView(isWatched: $isWatched,
                                    isFavorite: $isFavorite,
                                    animateGesture: $animateGesture,
-                                   image: viewModel.content?.cardImageMedium,
+                                   image: UIDevice.isIPad ? viewModel.content?.cardImageLarge : viewModel.content?.cardImageMedium,
                                    title: title,
                                    isAdult: viewModel.content?.adult ?? false)
                         .environmentObject(store)

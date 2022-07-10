@@ -6,34 +6,29 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct ItemView: View {
     let content: WatchlistItem
     var body: some View {
         HStack {
-            AsyncImage(url: content.image,
-                       transaction: Transaction(animation: .easeInOut)) { phase in
-                if let image = phase.image {
-                    ZStack {
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .transition(.opacity)
-                        if content.watched {
-                            Color.black.opacity(0.6)
-                            Image(systemName: "checkmark.circle.fill").foregroundColor(.white)
+            ZStack {
+                WebImage(url: content.image)
+                    .placeholder {
+                        ZStack {
+                            Color.secondary
+                            Image(systemName: "film")
                         }
+                        .frame(width: DrawingConstants.imageWidth,
+                               height: DrawingConstants.imageHeight)
+                        .clipShape(RoundedRectangle(cornerRadius: DrawingConstants.imageRadius))
                     }
-                } else if phase.error != nil {
-                    ZStack {
-                        Color.secondary
-                        ProgressView()
-                    }
-                } else {
-                    ZStack {
-                        Color.secondary
-                        Image(systemName: "film")
-                    }
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .transition(.opacity)
+                if content.watched {
+                    Color.black.opacity(0.6)
+                    Image(systemName: "checkmark.circle.fill").foregroundColor(.white)
                 }
             }
             .frame(width: DrawingConstants.imageWidth,

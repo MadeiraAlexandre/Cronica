@@ -6,33 +6,16 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct HeroImage: View {
     let url: URL?
     let title: String
     var blurImage: Bool = false
     var body: some View {
-        AsyncImage(url: url,
-                   transaction: Transaction(animation: .easeInOut)) { phase in
-            if let image = phase.image {
-                ZStack {
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .transition(.opacity)
-                    if blurImage {
-                        Rectangle().fill(.ultraThickMaterial)
-                        Image(systemName: "eye.slash.fill")
-                            .foregroundColor(.white)
-                            .font(.system(size: 30))
-                    }
-                }
-            } else if phase.error != nil {
-                ZStack {
-                    Rectangle().fill(.thickMaterial)
-                    ProgressView(title)
-                }
-            } else {
+        WebImage(url: url)
+            .resizable()
+            .placeholder {
                 ZStack {
                     Rectangle().fill(.thickMaterial)
                     VStack {
@@ -45,8 +28,9 @@ struct HeroImage: View {
                     .foregroundColor(.secondary)
                 }
             }
-        }
-                   
+            .transition(.fade)
+            .aspectRatio(contentMode: .fill)
+            .transition(.opacity)
     }
 }
 

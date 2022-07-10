@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct ItemContentFrameView: View {
     let item: ItemContent
@@ -16,27 +17,8 @@ struct ItemContentFrameView: View {
     var body: some View {
         NavigationLink(destination: ItemContentView(title: item.itemTitle, id: item.id, type: item.itemContentMedia)) {
             VStack {
-                AsyncImage(url: item.cardImageMedium,
-                           transaction: Transaction(animation: .easeInOut)) { phase in
-                    if let image = phase.image {
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .transition(.opacity)
-                    } else if phase.error != nil {
-                        ZStack {
-                            Rectangle().fill(.thickMaterial)
-                            VStack {
-                                Text(item.itemTitle)
-                                    .font(.callout)
-                                    .lineLimit(DrawingConstants.titleLineLimit)
-                                    .padding(.bottom)
-                                Image(systemName: "film")
-                            }
-                            .padding()
-                            .foregroundColor(.secondary)
-                        }
-                    } else {
+                WebImage(url: item.cardImageMedium, options: .highPriority)
+                    .placeholder {
                         ZStack {
                             Rectangle().fill(.thickMaterial)
                             VStack {
@@ -47,32 +29,38 @@ struct ItemContentFrameView: View {
                             .padding()
                             .foregroundColor(.secondary)
                         }
+                        .frame(width: UIDevice.isIPad ? DrawingConstants.padImageWidth :  DrawingConstants.imageWidth,
+                               height: UIDevice.isIPad ? DrawingConstants.padImageHeight : DrawingConstants.imageHeight)
+                        .clipShape(RoundedRectangle(cornerRadius: UIDevice.isIPad ? DrawingConstants.padImageRadius : DrawingConstants.imageRadius,
+                                                    style: .continuous))
                     }
-                }
-                .frame(width: UIDevice.isIPad ? DrawingConstants.padImageWidth :  DrawingConstants.imageWidth,
-                        height: UIDevice.isIPad ? DrawingConstants.padImageHeight : DrawingConstants.imageHeight)
-                .clipShape(RoundedRectangle(cornerRadius: UIDevice.isIPad ? DrawingConstants.padImageRadius : DrawingConstants.imageRadius,
-                                                       style: .continuous))
-                .contextMenu {
-                    Button(action: {
-                        HapticManager.shared.softHaptic()
-                        shareItems = [item.itemURL]
-                        isSharePresented.toggle()
-                    }, label: {
-                        Label("Share",
-                              systemImage: "square.and.arrow.up")
-                    })
-                    Button(action: {
-                        Task {
-                            updateWatchlist(with: item)
-                        }
-                    }, label: {
-                        Label("Add to watchlist", systemImage: "plus.circle")
-                    })
-                }
-                .sheet(isPresented: $isSharePresented,
-                       content: { ActivityViewController(itemsToShare: $shareItems) })
-                .shadow(radius: DrawingConstants.imageShadow)
+                    .resizable()
+                    .transition(.fade(duration: 0.5))
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: UIDevice.isIPad ? DrawingConstants.padImageWidth :  DrawingConstants.imageWidth,
+                           height: UIDevice.isIPad ? DrawingConstants.padImageHeight : DrawingConstants.imageHeight)
+                    .clipShape(RoundedRectangle(cornerRadius: UIDevice.isIPad ? DrawingConstants.padImageRadius : DrawingConstants.imageRadius,
+                                                style: .continuous))
+                    .contextMenu {
+                        Button(action: {
+                            HapticManager.shared.softHaptic()
+                            shareItems = [item.itemURL]
+                            isSharePresented.toggle()
+                        }, label: {
+                            Label("Share",
+                                  systemImage: "square.and.arrow.up")
+                        })
+                        Button(action: {
+                            Task {
+                                updateWatchlist(with: item)
+                            }
+                        }, label: {
+                            Label("Add to watchlist", systemImage: "plus.circle")
+                        })
+                    }
+                    .sheet(isPresented: $isSharePresented,
+                           content: { ActivityViewController(itemsToShare: $shareItems) })
+                    .shadow(radius: DrawingConstants.imageShadow)
                 HStack {
                     Text(item.itemTitle)
                         .font(.caption)

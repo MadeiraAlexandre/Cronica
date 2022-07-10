@@ -5,7 +5,7 @@
 //  Created by Alexandre Madeira on 17/02/22.
 //
 
-@preconcurrency import Foundation
+import Foundation
 import SwiftUI
 
 /// Represents a movie, tv show model, it is also used for people only

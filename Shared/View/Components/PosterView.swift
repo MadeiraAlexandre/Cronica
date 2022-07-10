@@ -6,23 +6,19 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct PosterView: View {
     let item: ItemContent
     @State private var isSharePresented: Bool = false
     @State private var shareItems: [Any] = []
+    @State private var isInWatchlist: Bool = false
     private let context = PersistenceController.shared
     @Binding var showConfirmation: Bool
     var body: some View {
         NavigationLink(destination: ItemContentView(title: item.itemTitle, id: item.id, type: item.itemContentMedia)) {
-            AsyncImage(url: item.posterImageMedium,
-                       transaction: Transaction(animation: .easeInOut)) { phase in
-                if let image = phase.image {
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .transition(.opacity)
-                } else if phase.error != nil {
+            WebImage(url: item.posterImageMedium, options: .highPriority)
+                .placeholder {
                     ZStack {
                         Rectangle().fill(.thickMaterial)
                         VStack {
@@ -34,47 +30,41 @@ struct PosterView: View {
                         .padding()
                         .foregroundColor(.secondary)
                     }
-                } else {
-                    ZStack {
-                        Rectangle().fill(.thickMaterial)
-                        VStack {
-                            ProgressView()
-                            Text(item.itemTitle)
-                                .lineLimit(1)
-                                .padding(.bottom)
-                            Image(systemName: "film")
-                        }
-                        .padding()
-                        .foregroundColor(.secondary)
-                    }
+                    .frame(width: DrawingConstants.posterWidth,
+                           height: DrawingConstants.posterHeight)
+                    .clipShape(RoundedRectangle(cornerRadius: DrawingConstants.posterRadius,
+                                                style: .continuous))
                 }
-            }
-                       .frame(width: DrawingConstants.posterWidth,
-                              height: DrawingConstants.posterHeight)
-                       .clipShape(RoundedRectangle(cornerRadius: DrawingConstants.posterRadius,
-                                                   style: .continuous))
-                       .contextMenu {
-                           Button(action: {
-                               HapticManager.shared.softHaptic()
-                               shareItems = [item.itemURL]
-                               isSharePresented.toggle()
-                           }, label: {
-                               Label("Share",
-                                     systemImage: "square.and.arrow.up")
-                           })
-                           Button(action: {
-                               Task {
-                                   updateWatchlist(with: item)
-                               }
-                           }, label: {
-                               Label("Add to watchlist", systemImage: "plus.circle")
-                           })
-                       }
-                       .sheet(isPresented: $isSharePresented,
-                              content: { ActivityViewController(itemsToShare: $shareItems) })
-                       .shadow(color: .black.opacity(DrawingConstants.shadowOpacity),
-                               radius: DrawingConstants.shadowRadius)
-                       .padding([.leading, .trailing], 4)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .transition(.fade(duration: 0.5))
+                .frame(width: DrawingConstants.posterWidth,
+                       height: DrawingConstants.posterHeight)
+                .clipShape(RoundedRectangle(cornerRadius: DrawingConstants.posterRadius,
+                                            style: .continuous))
+                .contextMenu {
+                    Button(action: {
+                        HapticManager.shared.softHaptic()
+                        shareItems = [item.itemURL]
+                        isSharePresented.toggle()
+                    }, label: {
+                        Label("Share",
+                              systemImage: "square.and.arrow.up")
+                    })
+                    Button(action: {
+                        Task {
+                            updateWatchlist(with: item)
+                        }
+                    }, label: {
+                        Label("Add to watchlist", systemImage: "plus.circle")
+                    })
+                    
+                }
+                .sheet(isPresented: $isSharePresented,
+                       content: { ActivityViewController(itemsToShare: $shareItems) })
+                .shadow(color: .black.opacity(DrawingConstants.shadowOpacity),
+                        radius: DrawingConstants.shadowRadius)
+                .padding([.leading, .trailing], 4)
         }
         .buttonStyle(.plain)
         

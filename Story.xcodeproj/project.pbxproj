@@ -85,6 +85,7 @@
 		B8EFB257281720E900F7CBD0 /* OverviewBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EFB256281720E900F7CBD0 /* OverviewBoxView.swift */; };
 		B8F2B4D5287A521000030A74 /* ActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8F2B4D4287A521000030A74 /* ActivityViewController.swift */; };
 		B8F2B4D7287A553A00030A74 /* ShareButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8F2B4D6287A553A00030A74 /* ShareButtonView.swift */; };
+		B8F6BFF3287B712700C348D5 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = B8F6BFF2287B712700C348D5 /* SDWebImageSwiftUI */; };
 		B8FF4DBB27F91A4900C7DE9F /* SeasonListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FF4DBA27F91A4900C7DE9F /* SeasonListView.swift */; };
 		B8FF4DBD27F91B5B00C7DE9F /* SeasonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FF4DBC27F91B5B00C7DE9F /* SeasonViewModel.swift */; };
 		B8FF4DBF27FA511A00C7DE9F /* TitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FF4DBE27FA511A00C7DE9F /* TitleView.swift */; };
@@ -212,6 +213,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8F6BFF3287B712700C348D5 /* SDWebImageSwiftUI in Frameworks */,
 				B87F74642806592E00E94126 /* CloudKit.framework in Frameworks */,
 				B8AA9C43287A5B4A00DE8924 /* TelemetryClient in Frameworks */,
 			);
@@ -532,6 +534,7 @@
 			name = "Story (iOS)";
 			packageProductDependencies = (
 				B8AA9C42287A5B4A00DE8924 /* TelemetryClient */,
+				B8F6BFF2287B712700C348D5 /* SDWebImageSwiftUI */,
 			);
 			productName = "Story (iOS)";
 			productReference = B8110EDF279245D100844FEB /* Story.app */;
@@ -586,6 +589,7 @@
 			mainGroup = B8110ED2279245D000844FEB;
 			packageReferences = (
 				B87F745C280605CE00E94126 /* XCRemoteSwiftPackageReference "SwiftClient" */,
+				B8F6BFF1287B712700C348D5 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 			);
 			productRefGroup = B8110EE0279245D100844FEB /* Products */;
 			projectDirPath = "";
@@ -875,7 +879,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.6.1;
+				MARKETING_VERSION = 1.6.2;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.alexandremadeira.Story;
 				PRODUCT_NAME = Story;
 				SDKROOT = iphoneos;
@@ -913,7 +917,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.6.1;
+				MARKETING_VERSION = 1.6.2;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.alexandremadeira.Story;
 				PRODUCT_NAME = Story;
 				SDKROOT = iphoneos;
@@ -1009,6 +1013,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		B8F6BFF1287B712700C348D5 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1016,6 +1028,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B87F745C280605CE00E94126 /* XCRemoteSwiftPackageReference "SwiftClient" */;
 			productName = TelemetryClient;
+		};
+		B8F6BFF2287B712700C348D5 /* SDWebImageSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B8F6BFF1287B712700C348D5 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
+			productName = SDWebImageSwiftUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 

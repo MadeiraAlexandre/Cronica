@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 /// A horizontal list that displays a limited number of
 ///  cast people in an ItemContent.
@@ -61,42 +62,47 @@ private struct PersonCardView: View {
     let person: Person
     @State private var isSharePresented: Bool = false
     @State private var shareItems: [Any] = []
+    @State private var errorLoadingImage: Bool = false
     var body: some View {
-        AsyncImage(url: person.personImage,
-                   transaction: Transaction(animation: .easeInOut)) { phase in
-            if let image = phase.image {
-                ZStack {
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                    Rectangle().fill(.ultraThinMaterial)
-                    Color.black.opacity(0.4)
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .mask(
-                            LinearGradient(gradient: Gradient(stops: [
-                                .init(color: .black, location: 0),
-                                .init(color: .black, location: 0.5),
-                                .init(color: .black.opacity(0), location: 1)
-                            ]), startPoint: .top, endPoint: .bottom)
-                        )
-                        .transition(.opacity)
-                    PersonNameCredits(person: person)
+        ZStack {
+            WebImage(url: person.personImage)
+                .placeholder {
+                    Color.secondary
                 }
-            } else if phase.error != nil {
-                Rectangle().redacted(reason: .placeholder)
-            } else {
-                ZStack {
-                    Rectangle().fill(.secondary)
-                    Image(systemName: "person")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 50, height: 50, alignment: .center)
-                        .foregroundColor(.white)
-                    PersonNameCredits(person: person)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+            Rectangle().fill(.ultraThinMaterial)
+            Color.black.opacity(0.4)
+            WebImage(url: person.personImage)
+                .placeholder {
+                    ZStack {
+                        Rectangle().fill(.secondary)
+                        Image(systemName: "person")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 50, height: 50, alignment: .center)
+                            .foregroundColor(.white)
+                        PersonNameCredits(person: person)
+                    }
+                    .frame(width: DrawingConstants.profileWidth,
+                           height: DrawingConstants.profileHeight)
+                    .clipShape(RoundedRectangle(cornerRadius: DrawingConstants.profileRadius,
+                                                style: .continuous))
                 }
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .mask(
+                    LinearGradient(gradient: Gradient(stops: [
+                        .init(color: .black, location: 0),
+                        .init(color: .black, location: 0.5),
+                        .init(color: .black.opacity(0), location: 1)
+                    ]), startPoint: .top, endPoint: .bottom)
+                )
+                .transition(.opacity)
+            if person.personImage != nil {
+                PersonNameCredits(person: person)
             }
+            
         }
         .frame(width: DrawingConstants.profileWidth,
                height: DrawingConstants.profileHeight)
@@ -141,6 +147,7 @@ private struct PersonNameCredits: View {
             }
             HStack {
                 Text(person.personRole ?? " ")
+                    .fontWeight(.semibold)
                     .foregroundColor(.white)
                     .font(.caption)
                     .lineLimit(DrawingConstants.lineLimit)

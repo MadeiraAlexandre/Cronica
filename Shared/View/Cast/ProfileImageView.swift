@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 /// This view displays a rounded image for the given person.
 struct ProfileImageView: View {
@@ -13,25 +14,24 @@ struct ProfileImageView: View {
     let name: String
     @State private var isPad: Bool = UIDevice.isIPad
     var body: some View {
-        AsyncImage(url: url) { phase in
-            if let image = phase.image {
-                image
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-            } else if phase.error != nil {
-                Rectangle().redacted(reason: .placeholder)
-            } else {
+        WebImage(url: url, options: .highPriority)
+            .resizable()
+            .placeholder {
                 ZStack {
                     Rectangle().fill(.thickMaterial)
                     ProgressView()
                 }
+                .frame(width: isPad ? DrawingConstants.padImageWidth : DrawingConstants.imageWidth,
+                       height: isPad ? DrawingConstants.padImageHeight : DrawingConstants.imageHeight)
+                .clipShape(Circle())
             }
-        }
-        .frame(width: isPad ? DrawingConstants.padImageWidth : DrawingConstants.imageWidth,
-               height: isPad ? DrawingConstants.padImageHeight : DrawingConstants.imageHeight)
-        .clipShape(Circle())
-        .padding([.top, .bottom])
-        .accessibilityHidden(true)
+            .transition(.fade(duration: 0.5))
+            .aspectRatio(contentMode: .fill)
+            .frame(width: isPad ? DrawingConstants.padImageWidth : DrawingConstants.imageWidth,
+                   height: isPad ? DrawingConstants.padImageHeight : DrawingConstants.imageHeight)
+            .clipShape(Circle())
+            .padding([.top, .bottom])
+            .accessibilityHidden(true)
     }
 }
 

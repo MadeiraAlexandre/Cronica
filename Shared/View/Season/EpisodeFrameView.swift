@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 /// A view that displays a frame with an image, episode number, title, and two line overview,
 /// on tap it display a sheet view with more information.
@@ -15,14 +16,8 @@ struct EpisodeFrameView: View {
     @State private var isPad: Bool = UIDevice.isIPad
     var body: some View {
         VStack {
-            AsyncImage(url: episode.itemImageMedium,
-                       transaction: Transaction(animation: .easeInOut)) { phase in
-                if let image = phase.image {
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .transition(.opacity)
-                } else {
+            WebImage(url: episode.itemImageMedium)
+                .placeholder {
                     ZStack {
                         Rectangle().fill(.thickMaterial)
                         VStack {
@@ -35,12 +30,18 @@ struct EpisodeFrameView: View {
                         .padding()
                         .foregroundColor(.secondary)
                     }
+                    .frame(width: DrawingConstants.imageWidth,
+                           height: DrawingConstants.imageHeight)
+                    .clipShape(RoundedRectangle(cornerRadius: DrawingConstants.imageRadius,
+                                                style: .continuous))
                 }
-            }
-            .frame(width: DrawingConstants.imageWidth,
-                   height: DrawingConstants.imageHeight)
-            .clipShape(RoundedRectangle(cornerRadius: DrawingConstants.imageRadius,
-                                        style: .continuous))
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .transition(.opacity)
+                .frame(width: DrawingConstants.imageWidth,
+                       height: DrawingConstants.imageHeight)
+                .clipShape(RoundedRectangle(cornerRadius: DrawingConstants.imageRadius,
+                                            style: .continuous))
             HStack {
                 Text("Episode \(episode.episodeNumber ?? 0)")
                     .font(.caption2)
