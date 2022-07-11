@@ -36,7 +36,7 @@ struct PosterView: View {
                                                 style: .continuous))
                 }
                 .resizable()
-                .aspectRatio(contentMode: .fit)
+                .aspectRatio(contentMode: .fill)
                 .transition(.fade(duration: 0.5))
                 .frame(width: DrawingConstants.posterWidth,
                        height: DrawingConstants.posterHeight)

@@ -25,7 +25,7 @@ struct ProfileImageView: View {
                        height: isPad ? DrawingConstants.padImageHeight : DrawingConstants.imageHeight)
                 .clipShape(Circle())
             }
-            .transition(.fade(duration: 0.5))
+            .transition(.opacity)
             .aspectRatio(contentMode: .fill)
             .frame(width: isPad ? DrawingConstants.padImageWidth : DrawingConstants.imageWidth,
                    height: isPad ? DrawingConstants.padImageHeight : DrawingConstants.imageHeight)
